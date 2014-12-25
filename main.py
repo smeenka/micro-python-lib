@@ -12,4 +12,8 @@ red.on()
 
 os.chdir('/sd/test/asyncio')
 #os.chdir('/sd/test/lib')
+#os.chdir('/sd/test/pyb')
 import test
+
+os.chdir('/sd')
+

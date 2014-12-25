@@ -1,3 +1,4 @@
+print("==== /sd/test/lib/timer.py")
 import pyb
 
 tim4 = pyb.Timer(4)              # create a timer object using timer 4
@@ -20,3 +21,5 @@ tim7.callback(lambda t:pyb.LED(2).toggle())
 tim8 = pyb.Timer(7)              # create a timer object using timer 4
 tim8.init(freq=3)                # trigger at 2Hz
 tim8.callback(lambda t:pyb.LED(3).toggle())
+
+print("==== timer ok")

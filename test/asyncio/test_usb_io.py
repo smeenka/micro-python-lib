@@ -57,6 +57,7 @@ def  led3():
         yield
 
 def  usbIO():
+    log.info("Press space to exit: ")
     yield
     buffer = bytearray([0])
     while True:
@@ -64,7 +65,10 @@ def  usbIO():
         line = ""
         while usb.any():
             usb.recv(buffer)
+            if buffer[0] == 32:
+                yield  asyncio.KillOs()
             line = "%s%c"%(line,buffer[0])
+
         log.info("Received: %s ", line )
 
 

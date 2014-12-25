@@ -19,29 +19,35 @@ class GetTid(SystemCall):
 # Return a task its own task reference
 class GetTaskRef(SystemCall):
     pass
+# Return the PyOs task dictionary
+# Be carefull with that axe Jane!
+class GetTaskDict(SystemCall):
+    pass
+# Kill a task
+class KillTask(SystemCall):
+    def __init__(self,tid):
+        self.tid = tid
+
+# Kill the Os scheduler. Usefull for testing
+class KillOs(SystemCall):
+    pass
 
 
 # Create a new task, calling coroutine gets a tid of the created task
-class NewTask(SystemCall):
+class CreateTask(SystemCall):
     def __init__(self,target, name = "", prio = 10, period = 0, time2run = 0):
-        self.target = target
-        self.name = name
-        self.prio = prio
-        self.time2run = time2run
+        self.target     = target
+        self.name       = name
+        self.prio       = prio
+        self.time2run   = time2run
+        self.period     = period
 
 
 # Kill a task
 class KillTask(SystemCall):
     def __init__(self,tid):
         self.tid = tid
-    def handle(self):
-        task = self.sched.taskmap.pop(self.tid,None)
-        if task:
-            task.target.close()
-            self.task.params  = True
-        else:
-            self.task.params  = False
-        self.sched.schedule(self.task)
+
 
 # Wait for a task to exit
 class WaitTask(SystemCall):
@@ -53,8 +59,7 @@ class WaitTask(SystemCall):
 class IOWait(SystemCall):
     def __init__(self,fd):
         self.fd = fd
-    def handle(self):
-        self.sched.iowait(self.fd,self.task)
+
 
 # Wait for a signal
 class Wait4Signal(SystemCall):

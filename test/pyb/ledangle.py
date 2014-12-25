@@ -1,6 +1,8 @@
+print("==== /sd/test/lib/test_ledangle.py")
 import pyb
 
 def led_angle(seconds_to_run_for):
+    print ("Tilt  micro python board ...")
     # make LED objects
     l1 = pyb.LED(1)
     l2 = pyb.LED(2)
@@ -23,3 +25,5 @@ def led_angle(seconds_to_run_for):
 
         # delay so that loop runs at at 1/50ms = 20Hz
         pyb.delay(50)
+
+led_angle(10)

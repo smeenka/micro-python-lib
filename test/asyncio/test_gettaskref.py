@@ -67,6 +67,9 @@ def  led3():
         leds[3].toggle()
         total += 1
         yield
+        if total > 10:
+            asyncio.KillOs()
+
 
 now = pyb.millis()
 

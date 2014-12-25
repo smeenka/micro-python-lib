@@ -59,6 +59,8 @@ def  wait3():
         if result == None:
             result = 0x1234
         log.info("Task wait3() got signal value: %d ",result)
+        if result == 10:
+            yield asyncio.KillOs()
 
 def  sender():
     count = 0

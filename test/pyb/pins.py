@@ -1,3 +1,4 @@
+print("==== /sd/test/lib/pins.py")
 # Print a nice list of pins, their current settings, and available afs.
 # Requires pins_af.py from stmhal/build-PYBV10/ directory.
 
@@ -56,4 +57,7 @@ def pins():
         for col in range(len(width)):
             print('%-*s ' % (width[col], row[col]), end='')
         print('')
+
+pins()
+af()
 

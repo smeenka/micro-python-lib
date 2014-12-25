@@ -50,20 +50,19 @@ def  led2():
         leds[2].toggle()
         total += 1
         yield
-def  wait4task0():
+def  wait4task0(tid0):
     yield
-    result = yield asyncio.WaitTask(1)
-    log.info("wait4task0: Did I kill task 0? : %s", result)
-    while True:
-        yield
+    result = yield asyncio.WaitTask(tid0)
+    log.info("wait4task0: Waiting for task %d to end.Did I wait? : %s",tid0 ,result)
+    yield asyncio.KillOs()
 
 now = pyb.millis()
 
 # Run them
 sched = asyncio.Scheduler()
-sched.new(led0(),  period = 200)
+tid0 = sched.new(led0(),  period = 200)
 sched.new(led1(),  period = 400, time2run = now +200)
 sched.new(led2(),  period = 400, time2run = now +400)
-sched.new(wait4task0(),    )
+sched.new(wait4task0(tid0)  ,period = 1000,   )
 
 sched.mainloop()

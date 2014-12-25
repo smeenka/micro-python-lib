@@ -29,6 +29,7 @@ class Scheduler(object):
         self.usb = None
 
 
+
     def new(self,target,name = "", prio = 10, period = 0, time2run = 0):
         """ Create new task from target. Return taskid form new task
             Target must be of type generator, prio 1 is higgest prio,
@@ -40,8 +41,8 @@ class Scheduler(object):
         return newtask.tid
 
     def exit(self,task):
-        log.trace("Task %d terminated" , task.tid)
-        del self.taskmap[task.tid]
+        log.debug("Task %s terminated" , task.name)
+        self.taskmap.pop(task.tid,None)
         # pop waiting list for this task (or empty list if none is waiting)
         waiting = self.exit_waiting.pop(task.tid,[])
         for task in waiting:
@@ -58,7 +59,7 @@ class Scheduler(object):
         self.signal_waiting.setdefault(signal,[]).append(task)
 
     def sendsignal(self,signal,value):
-        # pop waiting list for this signal (or empty listt if none is waiting)
+        # pop waiting list for this signal (or empty list if none is waiting)
         log.info ("sendsignal  %s , %d " ,signal ,value)
         waiting = self.signal_waiting.pop(signal,[])
         for task in waiting:
@@ -123,23 +124,23 @@ class Scheduler(object):
                              self.iowait(result.fd,task)
                              continue  # do not reschedule current task
 
-                        if isinstance(result, SendSignal):
+                        elif isinstance(result, SendSignal):
                              self.sendsignal(result.signal,result.value)
                              # reschedule current task
 
-                        if isinstance(result, Wait4Signal):
+                        elif isinstance(result, Wait4Signal):
                              self.wait4signal(task,result.signal)
                              continue  # do not reschedule current task
 
-                        if isinstance(result, GetTaskRef):
+                        elif isinstance(result, GetTaskRef):
                              task.params  = task
                              # reschedule current task
 
-                        if isinstance(result, GetTid):
+                        elif isinstance(result, GetTid):
                              task.params  = task.tid
                              # reschedule current task
 
-                        if isinstance(result, WaitTask):
+                        elif isinstance(result, WaitTask):
                              result = self.waitforexit(task,result.tid)
                              task.params  = result
                              # If waiting for a non-existent task,
@@ -147,11 +148,35 @@ class Scheduler(object):
                              if  result:
                                  continue
 
-                        if isinstance(result, NewTask):
-                             log.trace(  "SystemCall NewTask called by: ", task.name)
-                             tid = self.sched.new(result.target, result.name,result.prio,result.time2run)
+                        elif isinstance(result, CreateTask):
+                             log.debug(  "CreateTask called by: %s ", task.name)
+                             tid = self.new(result.target, result.name,result.prio,result.period, result.time2run)
                              task.params  = tid
                              # reschedule current task
+
+
+                        elif isinstance(result, KillTask):
+                            log.debug(  "KillTask called by:%s ", task.name)
+                            kill = self.taskmap.pop(result.tid,None)
+                            if kill:
+                                kill.target.close()
+                                task.params  = True
+                            else:
+                                task.params  = False
+                             # reschedule current task
+
+                        elif isinstance(result, GetTaskDict):
+                             task.params  = self.taskmap
+                             # reschedule current task
+
+                        if isinstance(result, KillOs):
+                            for tid in self.taskmap:
+                                kill = self.taskmap.pop(tid,None)
+                                if kill:
+                                    log.debug  ("Killing task %s", kill.name)
+                                    kill.target.close()
+                            log.info  ("Goodbye cruel world, I am dying")
+                            return
 
                     task.time2run = task.period + taskStartTime
                     self.ready.append(task)

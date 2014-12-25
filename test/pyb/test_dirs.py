@@ -1,4 +1,4 @@
-
+print("==== /sd/test/lib/test_dirs.py")
 import sys
 import os
 
@@ -8,8 +8,3 @@ l = os.listdir()
 print(l)
 assert "test_dirs.py" in l
 
-for t in os.walk("."):
-    print(t)
-
-for t in os.walk(".", False):
-    print(t)

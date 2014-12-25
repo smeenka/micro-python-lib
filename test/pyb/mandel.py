@@ -1,3 +1,4 @@
+print("==== /sd/test/lib/mandel.py")
 import pyb
 
 def mandelbrot():
@@ -19,7 +20,7 @@ def mandelbrot():
         lcd.show()
 
 # PC testing
-
+print("==== This test needs lcd connected")
 lcd = pyb.LCD('X')
 lcd.light(True)
 

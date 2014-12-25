@@ -29,11 +29,12 @@ def bar():
         log.info("I'm bar %d",barc)
         barc +=1
         yield
+    yield asyncio.KillOs()
 
 
 # Run them
 sched = asyncio.Scheduler()
-sched.new(bar(), name = "bartask", period = 1500)
-sched.new(foo(), name = "footask", period = 1000)
+sched.new(bar(), name = "bartask", period = 700)
+sched.new(foo(), name = "footask", period = 500)
 
 sched.mainloop()

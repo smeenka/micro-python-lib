@@ -83,6 +83,8 @@ def  evaluate(total, lcd):
 
     log.info("Total micros in 10 second runtime: %f", us / 1000000)
     log.info("Total counts:  %d counts /sec: %f ", t, t / 10)
+    yield asyncio.KillOs()
+
 
 
 
