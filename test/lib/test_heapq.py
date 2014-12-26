@@ -4,9 +4,6 @@ import os
 import heapq as heapq
 from heapq import heapqueue
 
-for name in heapq.__all__:
-    print ("heapq:          Current object :",name)
-
 for name in heapq.heapqueue.__all__:
     print ("heapq.heapqueue: Current object :",name)
 

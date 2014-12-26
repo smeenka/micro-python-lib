@@ -7,9 +7,7 @@ print("==== /sd/test/asyncio/test_2tasks.py")
 import logging
 log = logging.getlogger("test_2tasks")
 logs = logging.getlogger("scheduler")
-logt = logging.getlogger("task")
 logs.setLevel(logging.TRACE)
-logt.setLevel(logging.TRACE)
 logging.setGlobal(logging.DEBUG)
 
 import time,sys

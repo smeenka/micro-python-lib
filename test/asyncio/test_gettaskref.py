@@ -7,9 +7,7 @@ print("==== /sd/test/asyncio/test_gettaskref.py")
 import logging
 log = logging.getlogger("test_taskref")
 logs = logging.getlogger("scheduler")
-logt = logging.getlogger("task")
 logs.setLevel(logging.TRACE)
-logt.setLevel(logging.TRACE)
 
 logging.setGlobal(logging.DEBUG)
 
@@ -67,8 +65,9 @@ def  led3():
         leds[3].toggle()
         total += 1
         yield
+        log.info("Total of task led3 now: %d"%total)
         if total > 10:
-            asyncio.KillOs()
+            yield asyncio.KillOs()
 
 
 now = pyb.millis()

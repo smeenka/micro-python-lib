@@ -15,11 +15,11 @@ tim6.callback(timer_tick)     # set callback for update interrupt (t=tim
 
 
 tim7 = pyb.Timer(7)              # create a timer object using timer 4
-tim7.init(freq=10)                # trigger at 2Hz
+tim7.init(freq=10)                # trigger at 10Hz
 tim7.callback(lambda t:pyb.LED(2).toggle())
 
-tim8 = pyb.Timer(7)              # create a timer object using timer 4
-tim8.init(freq=3)                # trigger at 2Hz
+tim8 = pyb.Timer(8)              # create a timer object using timer 8
+tim8.init(freq=3)                # trigger at 3Hz
 tim8.callback(lambda t:pyb.LED(3).toggle())
 
 print("==== timer ok")

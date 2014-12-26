@@ -11,4 +11,6 @@ def test():
 	lcd.text('Hello uPy!', x, 10, 1)
 	lcd.show()
 	pyb.delay(2000)
-    
+
+
+test()

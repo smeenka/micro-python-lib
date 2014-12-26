@@ -8,9 +8,7 @@ import logging
 import pyb
 log = logging.getlogger("test_taskwait")
 logs = logging.getlogger("scheduler")
-logt = logging.getlogger("task")
 logs.setLevel(logging.TRACE)
-logt.setLevel(logging.TRACE)
 logging.setGlobal(logging.DEBUG)
 
 import time,sys

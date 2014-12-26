@@ -1,8 +1,18 @@
-print("==== /sd/test/lib/test_epoll.py")
+print("==== /sd/test/lib/test_poll.py")
 import sys
 import select
 import os
 import pyb
+
+"""
+Note that this test will fail:
+==== /sd/test/lib/test_poll.py
+Traceback (most recent call last):
+  File "main.py", line 16, in <module>
+  File "test.py", line 5, in <module>
+  File "test_poll.py", line 13, in <module>
+TypeError: object with stream.ioctl required
+"""
 
 # create new usb serial port
 usb = pyb.USB_VCP()

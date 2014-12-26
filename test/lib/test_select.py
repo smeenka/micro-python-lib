@@ -9,9 +9,7 @@ lcd = pyb.LCD('X')
 lcd.light(True)
 
 
-usb = pyb.USB_VCP()
 
-poll = select.poll()
 
 
 x = 0
@@ -19,10 +17,17 @@ y = 0
 c = 0
 
 def p():
+    usb = pyb.USB_VCP()
     x = 0
     y = 0
+    rlist = []
+    wlist = []
+    xlist = []
     while True:
-        time.sleep(5)
+        #rlist = [usb]          # will fail  TypeError: object with stream.ioctl required
+        select.select ( rlist, wlist, xlist, 1)
+        print ("rlist: ", rlist)
+
         while usb.any():
             c = usb.read(1)
 
